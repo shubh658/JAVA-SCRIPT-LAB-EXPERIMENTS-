@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hello World</title>
+</head>
+<body style="background-color:#f0f8ff; text-align:center; font-family:Arial, sans-serif; padding:40px;">
+
+    <h1 style="font-size:48px; color:white; background-color:#007BFF; padding:15px; border-radius:8px;">
+        Hello World
+    </h1>
+<p>
+    Name : Shubhanshu manjare ,PRN : 24070521170
+</p>
+    <p style="font-size:20px; color:#333333; background-color:#ffffcc; padding:10px; margin-top:20px;">
+    
+        This is a sample webpage designed by Inline CSS.
+    </p>
+
+    <button style="font-size:18px; color:white; background-color:green; padding:12px 24px; border:none; border-radius:5px; cursor:pointer; margin-top:20px;">
+        Click Me
+    </button>
+
+</body>
+</html>
