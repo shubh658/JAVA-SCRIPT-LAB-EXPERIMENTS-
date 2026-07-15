@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Popup Bill Generator</title>
+</head>
+<body>
+
+    <script>
+        // 1. Take inputs from the user using popup boxes
+        var uName = prompt("Enter User Name:");
+        var contact = prompt("Enter Contact No:");
+        var pName = prompt("Enter Product Name:");
+        var qty = prompt("Enter Quantity:");
+        var price = prompt("Enter Price per Unit:");
+
+        // Convert string inputs to numbers for calculation
+        qty = Number(qty);
+        price = Number(price);
+
+        // 2. Perform calculations
+        var total = qty * price;
+        var gst = total * 0.18;
+        var finalAmount = total + gst;
+
+        // 3. Display the layout using document.write
+        document.write("<h2>Bill Details</h2>");
+        
+        // Left Half: Details Box
+        document.write("<div style='width: 45%; float: left; border: 2px solid black; padding: 15px; box-sizing: border-box;'>");
+        document.write("<h3>Enter Details</h3>");
+        document.write("<p><b>User Name:</b><br>" + uName + "</p>");
+        document.write("<p><b>Contact No:</b><br>" + contact + "</p>");
+        document.write("<p><b>Product Name:</b><br>" + pName + "</p>");
+        document.write("<p><b>Quantity:</b><br>" + qty + "</p>");
+        document.write("<p><b>Price per Unit:</b><br>" + price + "</p>");
+        document.write("</div>");
+
+        // Right Half: Receipt Box
+        document.write("<div style='width: 45%; float: left; border: 2px solid black; padding: 15px; margin-left: 5%; box-sizing: border-box;'>");
+        document.write("<h3>Bill Receipt</h3>");
+        document.write("<p>User Name: " + uName + "</p>");
+        document.write("<p>Contact No: " + contact + "</p>");
+        document.write("<p>Product Name: " + pName + "</p>");
+        document.write("<p>Quantity: " + qty + "</p>");
+        document.write("<p>Price: " + price + "</p>");
+        document.write("<hr>");
+        document.write("<p>Total Value: " + total + "</p>");
+        document.write("<p>GST (18%): " + gst + "</p>");
+        document.write("<p><b>Final Amount: " + finalAmount + "</b></p>");
+        document.write("<br>");
+        document.write("<p>Name: Aaryan Kawale, PRN: 24070521162</p>");
+        document.write("</div>");
+    </script>
+
+</body>
+</html>
