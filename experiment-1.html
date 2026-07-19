@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CSS and JavaScript Demonstration</title>
+
+    <style>
+        body{
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f5f5f5;
+        }
+
+        /* Internal CSS */
+        .heading1{
+            color: lavender;
+            font-size: 40px;
+            font-weight: bold;
+        }
+
+        /* External CSS Heading (for demo) */
+        .heading2{
+            color: red;
+            font-size: 40px;
+            font-weight: bold;
+        }
+
+        p{
+            font-size: 20px;
+        }
+
+        #msg{
+            color: green;
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        button{
+            background-color:goldenrod;
+            color: white;
+            font-size: 18px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        button:hover{
+            background-color: #000066;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Internal CSS -->
+    <h1 class="heading1">This is INTERNAL CSS</h1>
+    <p><b>Name:</b> Shubhanshu Manjare</p>
+    <p><b>PRN:</b> 24070521170</p>
+
+    <!-- Inline CSS -->
+    <h1 style="color:green;">This is INLINE CSS</h1>
+    <p><b>Name:</b> Shubhanshu Manjare</p>
+    <p><b>PRN:</b> 24070521170</p>
+
+    <!-- External CSS -->
+    <h1 class="heading2">This is EXTERNAL CSS</h1>
+    <p><b>Name:</b> Shubhanshu Manjare</p>
+    <p><b>PRN:</b> 24070521170</p>
+
+    <!-- Button -->
+    <button onclick="alert('Hello World!')">
+        Click Me
+    </button>
+
+    <!-- JavaScript Message -->
+    <h3 id="msg"></h3>
+
+    <!-- Internal JavaScript -->
+    <script>
+        document.getElementById("msg").innerHTML =
+        "Welcome to JavaScript Programming!";
+
+        console.log("Console Log Message");
+        console.info("Console Info Message");
+        console.warn("Console Warning Message");
+        console.error("Console Error Message");
+    </script>
+
+    <!-- External JavaScript -->
+    <script src="script.js"></script>
+
+</body>
+</html>
