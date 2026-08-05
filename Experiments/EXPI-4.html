@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Palindrome Checker</title>
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    background:#f4f4f4;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+
+.container{
+    background:white;
+    padding:30px;
+    border-radius:10px;
+    box-shadow:0 0 10px rgba(0,0,0,0.2);
+    text-align:center;
+    width:350px;
+}
+
+input{
+    width:90%;
+    padding:10px;
+    margin:15px 0;
+    font-size:16px;
+}
+
+button{
+    padding:10px 20px;
+    background:#007bff;
+    color:white;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#0056b3;
+}
+
+#output{
+    margin-top:20px;
+    font-size:18px;
+    font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+<h2>Palindrome Checker</h2>
+
+<input type="text" id="word" placeholder="Enter a word">
+
+<br><br>
+
+<button onclick="checkPalindrome()">Check</button>
+
+<p id="output"></p>
+
+</div>
+
+<script>
+
+// Function Declaration
+function cleanText(text){
+    return text.toLowerCase().replace(/[^a-z0-9]/g,"");
+}
+
+// Function Expression
+const reverseText = function(str){
+    return str.split("").reverse().join("");
+};
+
+// Arrow Function
+const isPalindrome = text => cleanText(text) === reverseText(cleanText(text));
+
+// Closure
+function message(){
+    let heading = "Result : ";
+
+    return function(result){
+        return heading + result;
+    };
+}
+
+const displayMessage = message();
+
+// Main Function
+function checkPalindrome(){
+
+    try{
+
+        let input = document.getElementById("word").value;
+
+        // Scope (Local Variable)
+        let output = document.getElementById("output");
+
+        if(input.trim()==""){
+            throw "Please enter a word.";
+        }
+
+        if(isPalindrome(input)){
+            output.innerHTML = displayMessage("Palindrome ✅");
+            output.style.color="green";
+        }
+        else{
+            output.innerHTML = displayMessage("Not a Palindrome ❌");
+            output.style.color="red";
+        }
+
+    }
+
+    catch(error){
+        document.getElementById("output").innerHTML=error;
+        document.getElementById("output").style.color="orange";
+    }
+
+}
+
+</script>
+
+</body>
+</html>
