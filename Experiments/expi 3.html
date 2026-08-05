@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>5-Subject Grading System</title>
+  <style>
+    * { box-sizing: border-box; font-family: system-ui, -apple-system, sans-serif; }
+    body { background-color: #f4f6f9; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 1.5rem; }
+    .card { background: #ffffff; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.08); width: 100%; max-width: 480px; }
+    h2 { margin-top: 0; color: #1e293b; text-align: center; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem 1rem; }
+    .form-group { margin-bottom: 0.75rem; }
+    .full-width { grid-column: span 2; }
+    label { display: block; margin-bottom: 0.35rem; font-weight: 600; color: #334155; font-size: 0.9rem; }
+    input[type="number"] { width: 100%; padding: 0.65rem; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 0.95rem; }
+    input[type="number"]:focus { outline: none; border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37,99,235,0.15); }
+    button { width: 100%; padding: 0.75rem; background-color: #2563eb; color: white; border: none; border-radius: 6px; font-size: 1rem; font-weight: 600; cursor: pointer; margin-top: 0.5rem; transition: background 0.2s; }
+    button:hover { background-color: #1d4ed8; }
+    .error-banner { background-color: #fef2f2; border-left: 4px solid #ef4444; color: #991b1b; padding: 0.75rem; border-radius: 4px; font-size: 0.875rem; margin-bottom: 1rem; display: none; }
+    .result-box { margin-top: 1.25rem; padding: 1.25rem; border-radius: 8px; display: none; }
+    .result-header { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; text-align: center; }
+    .result-details { font-size: 0.95rem; line-height: 1.5; }
+    /* Dynamic Theme Colors */
+    .grade-A { background-color: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
+    .grade-B { background-color: #e0f2fe; color: #075985; border: 1px solid #bae6fd; }
+    .grade-C { background-color: #fef9c3; color: #854d0e; border: 1px solid #fef08a; }
+    .grade-D { background-color: #ffedd5; color: #9a3412; border: 1px solid #fed7aa; }
+    .grade-F { background-color: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h2>Student Assessment</h2>
+    
+    <!-- Unified Error Banner -->
+    <div id="errorBanner" class="error-banner"></div>
+
+    <form id="gradeForm" novalidate>
+      <div class="grid">
+        <div class="form-group">
+          <label for="sub1">Mathematics</label>
+          <input type="number" id="sub1" class="subject-input" placeholder="0 - 100">
+        </div>
+        <div class="form-group">
+          <label for="sub2">Science</label>
+          <input type="number" id="sub2" class="subject-input" placeholder="0 - 100">
+        </div>
+        <div class="form-group">
+          <label for="sub3">English</label>
+          <input type="number" id="sub3" class="subject-input" placeholder="0 - 100">
+        </div>
+        <div class="form-group">
+          <label for="sub4">History</label>
+          <input type="number" id="sub4" class="subject-input" placeholder="0 - 100">
+        </div>
+        <div class="form-group full-width">
+          <label for="sub5">Computer Science</label>
+          <input type="number" id="sub5" class="subject-input" placeholder="0 - 100">
+        </div>
+      </div>
+      <button type="submit">Calculate Final Results</button>
+    </form>
+
+    <div id="resultBox" class="result-box">
+      <div id="resultHeader" class="result-header"></div>
+      <div id="resultDetails" class="result-details"></div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('gradeForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const inputs = document.querySelectorAll('.subject-input');
+      const errorBanner = document.getElementById('errorBanner');
+      const resultBox = document.getElementById('resultBox');
+      const resultHeader = document.getElementById('resultHeader');
+      const resultDetails = document.getElementById('resultDetails');
+
+      // Reset UI state
+      errorBanner.style.display = 'none';
+      resultBox.style.display = 'none';
+      resultBox.className = 'result-box';
+
+      const scores = [];
+      let hasFailedSubject = false;
+
+      // --- 1. CONTROL STRUCTURE: Loop with Validation Checks ---
+      for (let i = 0; i < inputs.length; i++) {
+        const value = inputs[i].value.trim();
+        const label = inputs[i].previousElementSibling.textContent;
+
+        // Check empty input
+        if (value === '') {
+          showError(`Please fill in marks for <strong>${label}</strong>.`);
+          inputs[i].focus();
+          return;
+        }
+
+        const score = Number(value);
+
+        // Check invalid numbers or out-of-bounds inputs
+        if (isNaN(score) || score < 0 || score > 100) {
+          showError(`Invalid mark for <strong>${label}</strong>. Enter a value between 0 and 100.`);
+          inputs[i].focus();
+          return;
+        }
+
+        // Check for subject failure condition (e.g., passing mark is 40)
+        if (score < 40) {
+          hasFailedSubject = true;
+        }
+
+        scores.push(score);
+      }
+
+      // --- 2. CALCULATIONS ---
+      const totalMarks = scores.reduce((sum, current) => sum + current, 0);
+      const percentage = (totalMarks / (scores.length * 100)) * 100;
+
+      // --- 3. CONTROL STRUCTURE: Grading Logic ---
+      let grade = '';
+      let status = '';
+      let cssClass = '';
+
+      if (hasFailedSubject) {
+        // Essential academic condition: Failing any individual subject overrides average grade
+        status = 'FAILED (Failed 1 or more subjects)';
+        grade = 'F';
+        cssClass = 'grade-F';
+      } else if (percentage >= 90) {
+        status = 'PASSED';
+        grade = 'A+ (Outstanding)';
+        cssClass = 'grade-A';
+      } else if (percentage >= 80) {
+        status = 'PASSED';
+        grade = 'A (Excellent)';
+        cssClass = 'grade-A';
+      } else if (percentage >= 70) {
+        status = 'PASSED';
+        grade = 'B (Good)';
+        cssClass = 'grade-B';
+      } else if (percentage >= 60) {
+        status = 'PASSED';
+        grade = 'C (Satisfactory)';
+        cssClass = 'grade-C';
+      } else if (percentage >= 50) {
+        status = 'PASSED';
+        grade = 'D (Pass)';
+        cssClass = 'grade-D';
+      } else {
+        status = 'FAILED';
+        grade = 'F (Needs Improvement)';
+        cssClass = 'grade-F';
+      }
+
+      // --- 4. RENDER OUTPUT ---
+      resultHeader.textContent = `Status: ${status}`;
+      resultDetails.innerHTML = `
+        <strong>Total Marks:</strong> ${totalMarks} / 500<br>
+        <strong>Overall Percentage:</strong> ${percentage.toFixed(2)}%<br>
+        <strong>Final Grade:</strong> ${grade}<br>
+        <hr style="margin: 0.75rem 0; border: none; border-top: 1px dashed rgba(0,0,0,0.2);">
+        <strong>Student Name:</strong> Shubhanshu Manjare<br>
+        <strong>PRN:</strong> 24070521170
+      `;
+      
+      resultBox.classList.add(cssClass);
+      resultBox.style.display = 'block';
+    });
+
+    function showError(htmlMessage) {
+      const errorBanner = document.getElementById('errorBanner');
+      errorBanner.innerHTML = htmlMessage;
+      errorBanner.style.display = 'block';
+    }
+  </script>
+</body>
+</html>
+
+
+
+
