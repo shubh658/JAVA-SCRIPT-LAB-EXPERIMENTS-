@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart PIN Security Checker</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
+
+body{
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    height:100vh;
+
+    background:linear-gradient(135deg,#4facfe,#00f2fe,#43e97b);
+
+}
+
+.container{
+
+    width:380px;
+
+    padding:35px;
+
+    text-align:center;
+
+    background:rgba(255,255,255,0.15);
+
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+
+    border:1px solid rgba(255,255,255,0.3);
+
+    border-radius:25px;
+
+    box-shadow:0 10px 30px rgba(0,0,0,.25);
+
+}
+
+h2{
+
+    color:white;
+    margin-bottom:10px;
+
+}
+
+p{
+
+    color:#f1f1f1;
+    margin-bottom:20px;
+
+}
+
+.icon{
+
+    font-size:55px;
+    margin-bottom:10px;
+
+}
+
+input[type="text"]{
+
+    width:100%;
+
+    padding:14px;
+
+    border:none;
+
+    outline:none;
+
+    border-radius:15px;
+
+    background:rgba(255,255,255,0.2);
+
+    color:white;
+
+    font-size:18px;
+
+    text-align:center;
+
+    margin-bottom:20px;
+
+}
+
+input::placeholder{
+
+    color:#eee;
+
+}
+
+button{
+
+    width:100%;
+
+    padding:14px;
+
+    border:none;
+
+    border-radius:15px;
+
+    background:rgba(255,255,255,0.25);
+
+    color:white;
+
+    font-size:17px;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+button:hover{
+
+    background:white;
+
+    color:#0077ff;
+
+    transform:scale(1.03);
+
+}
+
+#result{
+
+    margin-top:20px;
+
+    padding:15px;
+
+    border-radius:12px;
+
+    font-size:18px;
+
+    font-weight:bold;
+
+    display:none;
+
+}
+
+.weak{
+
+    background:rgba(255,0,0,.2);
+
+    color:#ff4d4d;
+
+    border:1px solid rgba(255,0,0,.3);
+
+}
+
+.strong{
+
+    background:rgba(0,255,100,.2);
+
+    color:#00ff88;
+
+    border:1px solid rgba(0,255,100,.3);
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="icon">🔒</div>
+
+<h2>Smart PIN Security Checker</h2>
+
+<p>Enter your PIN to verify its security level.</p>
+
+<input type="text"
+id="pinInput"
+maxlength="8"
+placeholder="Enter your PIN">
+
+<button onclick="checkPinStrength()">
+Check PIN
+</button>
+
+<div id="result"></div>
+
+</div>
+
+<script>
+
+function checkPinStrength(){
+
+let pin=document.getElementById("pinInput").value;
+
+let result=document.getElementById("result");
+
+result.style.display="block";
+
+if(pin==""){
+
+result.innerHTML="⚠ Please enter your PIN.";
+
+result.className="weak";
+
+return;
+
+}
+
+// Reverse PIN
+
+let reverse=pin.split("").reverse().join("");
+
+// Extra Conditions
+
+if(pin===reverse){
+
+result.innerHTML="❌ Weak PIN <br>Palindrome PIN detected.";
+
+result.className="weak";
+
+}
+
+else if(pin.length<4){
+
+result.innerHTML="⚠ PIN should contain at least 4 digits.";
+
+result.className="weak";
+
+}
+
+else{
+
+result.innerHTML="✅ Strong PIN <br>Your PIN is secure.";
+
+result.className="strong";
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
