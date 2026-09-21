@@ -1,0 +1,956 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>24070521144 - Gym Admission</title>
+
+<style>
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  min-height:100vh;
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",
+              "Segoe UI",sans-serif;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  padding:30px 15px;
+
+  background:
+    radial-gradient(circle at 15% 15%,#b8d8ff,transparent 30%),
+    radial-gradient(circle at 90% 15%,#e3c5ff,transparent 30%),
+    radial-gradient(circle at 50% 100%,#bceee3,transparent 35%),
+    linear-gradient(135deg,#edf5ff,#f8f1ff,#edfcf8);
+
+  color:#172033;
+}
+
+
+/* =========================
+   MAIN GLASS CONTAINER
+========================= */
+
+.form-container{
+
+  width:100%;
+  max-width:520px;
+
+  padding:30px;
+
+  border-radius:30px;
+
+  background:rgba(255,255,255,.55);
+
+  border:1px solid rgba(255,255,255,.8);
+
+  box-shadow:
+    0 25px 60px rgba(31,38,135,.15),
+    inset 0 1px 2px rgba(255,255,255,.9);
+
+  backdrop-filter:blur(28px);
+  -webkit-backdrop-filter:blur(28px);
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+.form-header{
+  text-align:center;
+  margin-bottom:25px;
+}
+
+.gym-icon{
+
+  width:68px;
+  height:68px;
+
+  margin:0 auto 14px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  border-radius:21px;
+
+  font-size:31px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(0,122,255,.85),
+      rgba(88,86,214,.85)
+    );
+
+  color:white;
+
+  box-shadow:
+    0 12px 25px rgba(0,122,255,.25);
+}
+
+h2{
+
+  font-size:27px;
+  font-weight:750;
+
+  letter-spacing:-.7px;
+
+  margin-bottom:5px;
+}
+
+.header-text{
+
+  color:#707887;
+
+  font-size:13px;
+}
+
+
+/* =========================
+   STUDENT ID
+========================= */
+
+.student-id{
+
+  display:inline-block;
+
+  margin-top:10px;
+
+  padding:6px 11px;
+
+  border-radius:20px;
+
+  background:rgba(255,255,255,.6);
+
+  color:#5f6673;
+
+  font-size:11px;
+}
+
+
+/* =========================
+   FORM
+========================= */
+
+.form-group{
+
+  margin-bottom:17px;
+
+  padding:14px;
+
+  border-radius:18px;
+
+  background:rgba(255,255,255,.35);
+
+  border:1px solid rgba(255,255,255,.55);
+
+  transition:.2s ease;
+}
+
+.form-group:focus-within{
+
+  background:rgba(255,255,255,.58);
+
+  transform:translateY(-1px);
+
+  box-shadow:
+    0 7px 20px rgba(31,38,135,.07);
+}
+
+
+label{
+
+  display:block;
+
+  margin-bottom:7px;
+
+  font-size:12px;
+
+  font-weight:700;
+
+  color:#5d6573;
+}
+
+
+/* =========================
+   INPUTS
+========================= */
+
+input,
+select{
+
+  width:100%;
+
+  padding:12px 13px;
+
+  border:1px solid rgba(255,255,255,.85);
+
+  border-radius:12px;
+
+  outline:none;
+
+  background:rgba(255,255,255,.65);
+
+  color:#172033;
+
+  font-family:inherit;
+
+  font-size:14px;
+
+  transition:.2s ease;
+
+  box-shadow:
+    inset 0 1px 3px rgba(0,0,0,.04);
+}
+
+
+input::placeholder{
+
+  color:#a0a6b0;
+}
+
+
+input:focus,
+select:focus{
+
+  background:rgba(255,255,255,.85);
+
+  border-color:rgba(0,122,255,.45);
+
+  box-shadow:
+    0 0 0 4px rgba(0,122,255,.08);
+}
+
+
+/* =========================
+   VALIDATION STATES
+========================= */
+
+input.invalid,
+select.invalid{
+
+  border-color:#ff6b60;
+
+  background:rgba(255,235,233,.65);
+}
+
+
+input.valid,
+select.valid{
+
+  border-color:#42c96b;
+
+  background:rgba(232,255,239,.6);
+}
+
+
+.error-text{
+
+  color:#e5483f;
+
+  font-size:11px;
+
+  margin-top:6px;
+
+  padding-left:2px;
+
+  display:none;
+}
+
+
+/* =========================
+   SUBMIT BUTTON
+========================= */
+
+button{
+
+  width:100%;
+
+  padding:14px;
+
+  border:none;
+
+  border-radius:15px;
+
+  cursor:pointer;
+
+  font-family:inherit;
+
+  font-size:15px;
+
+  font-weight:700;
+
+  color:white;
+
+  background:
+    linear-gradient(
+      135deg,
+      #007aff,
+      #5856d6
+    );
+
+  box-shadow:
+    0 10px 24px rgba(0,122,255,.25);
+
+  transition:.2s ease;
+}
+
+
+button:hover:not(:disabled){
+
+  transform:translateY(-2px);
+
+  box-shadow:
+    0 14px 28px rgba(0,122,255,.30);
+}
+
+
+button:active:not(:disabled){
+
+  transform:scale(.98);
+}
+
+
+button:disabled{
+
+  background:rgba(120,130,145,.35);
+
+  color:rgba(255,255,255,.8);
+
+  cursor:not-allowed;
+
+  box-shadow:none;
+}
+
+
+/* =========================
+   SUCCESS MESSAGE
+========================= */
+
+.success-msg{
+
+  display:none;
+
+  margin-top:15px;
+
+  padding:12px;
+
+  border-radius:13px;
+
+  text-align:center;
+
+  font-size:13px;
+
+  font-weight:650;
+
+  color:#16833b;
+
+  background:rgba(52,199,89,.12);
+
+  border:1px solid rgba(52,199,89,.2);
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+.footer{
+
+  text-align:center;
+
+  margin-top:18px;
+
+  color:#8a919d;
+
+  font-size:10px;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:600px){
+
+  body{
+
+    padding:15px 10px;
+
+    align-items:flex-start;
+  }
+
+  .form-container{
+
+    margin-top:10px;
+
+    padding:20px;
+
+    border-radius:25px;
+  }
+
+  h2{
+
+    font-size:24px;
+  }
+
+  .form-group{
+
+    padding:12px;
+  }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div class="form-container">
+
+
+  <!-- HEADER -->
+
+  <div class="form-header">
+
+    <div class="gym-icon">
+      🏋️
+    </div>
+
+    <h2>Gym Admission</h2>
+
+    <p class="header-text">
+      Start your fitness journey today
+    </p>
+
+    <span class="student-id">
+      Student ID: 24070521144
+    </span>
+
+  </div>
+
+
+  <form id="gymForm">
+
+
+    <!-- FULL NAME -->
+
+    <div class="form-group">
+
+      <label for="fullName">
+        Full Name
+      </label>
+
+      <input
+        type="text"
+        id="fullName"
+        placeholder="Enter your full name"
+      >
+
+      <div
+        class="error-text"
+        id="fullNameError">
+
+        Name must be at least 3 characters.
+
+      </div>
+
+    </div>
+
+
+    <!-- EMAIL -->
+
+    <div class="form-group">
+
+      <label for="email">
+        Email Address
+      </label>
+
+      <input
+        type="text"
+        id="email"
+        placeholder="example@mail.com"
+      >
+
+      <div
+        class="error-text"
+        id="emailError">
+
+        Enter a valid email address.
+
+      </div>
+
+    </div>
+
+
+    <!-- AGE -->
+
+    <div class="form-group">
+
+      <label for="age">
+        Age
+      </label>
+
+      <input
+        type="number"
+        id="age"
+        placeholder="Enter your age"
+      >
+
+      <div
+        class="error-text"
+        id="ageError">
+
+        Age must be between 16 and 70.
+
+      </div>
+
+    </div>
+
+
+    <!-- PHONE -->
+
+    <div class="form-group">
+
+      <label for="phone">
+        Phone Number
+      </label>
+
+      <input
+        type="text"
+        id="phone"
+        placeholder="10-digit mobile number"
+      >
+
+      <div
+        class="error-text"
+        id="phoneError">
+
+        Phone number must be exactly 10 digits.
+
+      </div>
+
+    </div>
+
+
+    <!-- MEMBERSHIP -->
+
+    <div class="form-group">
+
+      <label for="plan">
+        Membership Plan
+      </label>
+
+      <select id="plan">
+
+        <option value="">
+          Select your membership
+        </option>
+
+        <option value="basic">
+          Basic — Monthly
+        </option>
+
+        <option value="pro">
+          Pro — 6 Months
+        </option>
+
+        <option value="elite">
+          Elite — Annual
+        </option>
+
+      </select>
+
+      <div
+        class="error-text"
+        id="planError">
+
+        Please select a membership plan.
+
+      </div>
+
+    </div>
+
+
+    <!-- SUBMIT -->
+
+    <button
+      type="submit"
+      id="submitBtn"
+      disabled>
+
+      Complete Admission
+
+    </button>
+
+
+    <!-- SUCCESS -->
+
+    <div
+      class="success-msg"
+      id="successMsg">
+
+      ✓ Admission submitted successfully!<br>
+      Welcome to the Gym.
+
+    </div>
+
+
+  </form>
+
+
+  <div class="footer">
+    Secure Form Validation • DOM Events
+  </div>
+
+</div>
+
+
+<script>
+
+
+/* =========================================================
+   ACCESS DOM ELEMENTS
+========================================================= */
+
+const fullName =
+  document.getElementById("fullName");
+
+const email =
+  document.getElementById("email");
+
+const age =
+  document.getElementById("age");
+
+const phone =
+  document.getElementById("phone");
+
+const plan =
+  document.getElementById("plan");
+
+const submitBtn =
+  document.getElementById("submitBtn");
+
+const form =
+  document.getElementById("gymForm");
+
+const successMsg =
+  document.getElementById("successMsg");
+
+
+/* =========================================================
+   VALIDATION STATE
+========================================================= */
+
+const validFields = {
+
+  fullName:false,
+
+  email:false,
+
+  age:false,
+
+  phone:false,
+
+  plan:false
+
+};
+
+
+/* =========================================================
+   UPDATE FIELD STATUS
+========================================================= */
+
+function updateStatus(
+  field,
+  errorEl,
+  isValid
+){
+
+  if(isValid){
+
+    field.classList.remove(
+      "invalid"
+    );
+
+    field.classList.add(
+      "valid"
+    );
+
+    errorEl.style.display =
+      "none";
+
+  }
+
+  else{
+
+    field.classList.remove(
+      "valid"
+    );
+
+    field.classList.add(
+      "invalid"
+    );
+
+    errorEl.style.display =
+      "block";
+
+  }
+
+
+  validFields[field.id] =
+    isValid;
+
+
+  checkFormValidity();
+
+}
+
+
+/* =========================================================
+   CHECK COMPLETE FORM
+========================================================= */
+
+function checkFormValidity(){
+
+  const isAllValid =
+    Object.values(validFields)
+      .every(
+        status => status === true
+      );
+
+
+  submitBtn.disabled =
+    !isAllValid;
+
+}
+
+
+/* =========================================================
+   1. FULL NAME
+========================================================= */
+
+fullName.addEventListener(
+  "input",
+  () => {
+
+    const isValid =
+      fullName.value
+        .trim()
+        .length >= 3;
+
+
+    updateStatus(
+      fullName,
+
+      document.getElementById(
+        "fullNameError"
+      ),
+
+      isValid
+    );
+
+  }
+);
+
+
+/* =========================================================
+   2. EMAIL
+========================================================= */
+
+email.addEventListener(
+  "input",
+  () => {
+
+    const emailRegex =
+      /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+
+    const isValid =
+      emailRegex.test(
+        email.value.trim()
+      );
+
+
+    updateStatus(
+      email,
+
+      document.getElementById(
+        "emailError"
+      ),
+
+      isValid
+    );
+
+  }
+);
+
+
+/* =========================================================
+   3. AGE
+========================================================= */
+
+age.addEventListener(
+  "input",
+  () => {
+
+    const val =
+      parseInt(
+        age.value,
+        10
+      );
+
+
+    const isValid =
+      !isNaN(val) &&
+      val >= 16 &&
+      val <= 70;
+
+
+    updateStatus(
+      age,
+
+      document.getElementById(
+        "ageError"
+      ),
+
+      isValid
+    );
+
+  }
+);
+
+
+/* =========================================================
+   4. PHONE
+========================================================= */
+
+phone.addEventListener(
+  "input",
+  () => {
+
+    const phoneRegex =
+      /^[0-9]{10}$/;
+
+
+    const isValid =
+      phoneRegex.test(
+        phone.value.trim()
+      );
+
+
+    updateStatus(
+      phone,
+
+      document.getElementById(
+        "phoneError"
+      ),
+
+      isValid
+    );
+
+  }
+);
+
+
+/* =========================================================
+   5. MEMBERSHIP PLAN
+========================================================= */
+
+plan.addEventListener(
+  "change",
+  () => {
+
+    const isValid =
+      plan.value !== "";
+
+
+    updateStatus(
+      plan,
+
+      document.getElementById(
+        "planError"
+      ),
+
+      isValid
+    );
+
+  }
+);
+
+
+/* =========================================================
+   FORM SUBMIT
+========================================================= */
+
+form.addEventListener(
+  "submit",
+  (e) => {
+
+    e.preventDefault();
+
+
+    successMsg.style.display =
+      "block";
+
+
+    form.reset();
+
+
+    /*
+      Remove validation classes
+    */
+
+    [
+      fullName,
+      email,
+      age,
+      phone,
+      plan
+
+    ].forEach(field => {
+
+      field.classList.remove(
+        "valid",
+        "invalid"
+      );
+
+    });
+
+
+    /*
+      Reset validation state
+    */
+
+    Object.keys(
+      validFields
+    ).forEach(key => {
+
+      validFields[key] =
+        false;
+
+    });
+
+
+    submitBtn.disabled =
+      true;
+
+  }
+);
+
+</script>
+
+</body>
+</html>
+```
