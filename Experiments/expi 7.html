@@ -1,0 +1,912 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>iOS Glassmorphism To-Do App</title>
+
+<style>
+:root{
+  --blue:#007aff;
+  --purple:#5856d6;
+  --green:#34c759;
+  --orange:#ff9500;
+  --red:#ff3b30;
+  --text:#111827;
+  --muted:#6b7280;
+  --glass:rgba(255,255,255,.58);
+  --border:rgba(255,255,255,.75);
+}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  min-height:100vh;
+  padding:35px 15px;
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",
+              "Segoe UI",sans-serif;
+  color:var(--text);
+
+  background:
+    radial-gradient(circle at 10% 10%,#b9d8ff 0,transparent 30%),
+    radial-gradient(circle at 90% 20%,#e3c6ff 0,transparent 30%),
+    radial-gradient(circle at 50% 100%,#b8f0e5 0,transparent 35%),
+    linear-gradient(135deg,#eef5ff,#f8f3ff,#eafcf8);
+}
+
+
+/* =========================
+   MAIN CONTAINER
+========================= */
+
+.container{
+  width:100%;
+  max-width:650px;
+  margin:auto;
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+.header{
+  text-align:center;
+  margin-bottom:25px;
+}
+
+.app-icon{
+  width:72px;
+  height:72px;
+  margin:auto;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  font-size:34px;
+
+  border-radius:22px;
+
+  background:rgba(255,255,255,.55);
+  border:1px solid rgba(255,255,255,.85);
+
+  box-shadow:
+    0 15px 35px rgba(31,38,135,.15),
+    inset 0 1px 2px rgba(255,255,255,.9);
+
+  backdrop-filter:blur(25px);
+  -webkit-backdrop-filter:blur(25px);
+}
+
+h1{
+  margin-top:15px;
+  font-size:30px;
+  font-weight:750;
+  letter-spacing:-.8px;
+}
+
+.subtitle{
+  margin-top:5px;
+  color:var(--muted);
+  font-size:14px;
+}
+
+
+/* =========================
+   GLASS TODO CARD
+========================= */
+
+.todo-card{
+  background:var(--glass);
+
+  border:1px solid var(--border);
+  border-radius:26px;
+
+  padding:25px;
+
+  box-shadow:
+    0 18px 50px rgba(31,38,135,.13),
+    inset 0 1px 2px rgba(255,255,255,.85);
+
+  backdrop-filter:blur(28px);
+  -webkit-backdrop-filter:blur(28px);
+}
+
+.todo-card h2{
+  font-size:20px;
+  margin-bottom:18px;
+  letter-spacing:-.3px;
+}
+
+
+/* =========================
+   ADD FORM
+========================= */
+
+#todo-form{
+  display:flex;
+  gap:10px;
+  margin-bottom:22px;
+}
+
+#todo-input,
+.edit-input{
+  flex:1;
+
+  min-width:0;
+
+  padding:13px 15px;
+
+  border:1px solid rgba(255,255,255,.85);
+  border-radius:14px;
+
+  outline:none;
+
+  background:rgba(255,255,255,.58);
+
+  color:#111827;
+
+  font-family:inherit;
+  font-size:15px;
+
+  box-shadow:
+    inset 0 1px 3px rgba(0,0,0,.04);
+
+  transition:.2s;
+}
+
+#todo-input:focus,
+.edit-input:focus{
+  background:rgba(255,255,255,.78);
+
+  border-color:rgba(0,122,255,.45);
+
+  box-shadow:
+    0 0 0 4px rgba(0,122,255,.10);
+}
+
+
+/* =========================
+   BUTTONS
+========================= */
+
+button{
+  border:none;
+  cursor:pointer;
+
+  font-family:inherit;
+  font-weight:650;
+
+  transition:.2s ease;
+}
+
+button:hover{
+  transform:translateY(-1px);
+}
+
+button:active{
+  transform:scale(.96);
+}
+
+
+/* Add Button */
+
+#add-btn{
+  padding:12px 19px;
+
+  border-radius:14px;
+
+  color:white;
+
+  background:
+    linear-gradient(
+      135deg,
+      #007aff,
+      #5856d6
+    );
+
+  box-shadow:
+    0 9px 20px rgba(0,122,255,.23);
+}
+
+#add-btn:hover{
+  box-shadow:
+    0 12px 25px rgba(0,122,255,.30);
+}
+
+
+/* =========================
+   TODO LIST
+========================= */
+
+#todo-list{
+  list-style:none;
+  padding:0;
+  margin:0;
+}
+
+
+/* Individual Task */
+
+#todo-list li{
+
+  display:flex;
+  align-items:center;
+
+  gap:11px;
+
+  padding:13px;
+
+  margin-bottom:10px;
+
+  border-radius:16px;
+
+  background:
+    rgba(255,255,255,.48);
+
+  border:
+    1px solid rgba(255,255,255,.65);
+
+  box-shadow:
+    0 5px 18px rgba(31,38,135,.07),
+    inset 0 1px 1px rgba(255,255,255,.8);
+
+  backdrop-filter:blur(15px);
+  -webkit-backdrop-filter:blur(15px);
+
+  transition:.25s ease;
+}
+
+#todo-list li:hover{
+  transform:translateY(-2px);
+
+  background:
+    rgba(255,255,255,.65);
+
+  box-shadow:
+    0 10px 25px rgba(31,38,135,.10);
+}
+
+
+/* =========================
+   CHECKBOX
+========================= */
+
+.todo-checkbox{
+
+  width:20px;
+  height:20px;
+
+  flex-shrink:0;
+
+  cursor:pointer;
+
+  accent-color:var(--blue);
+}
+
+
+/* =========================
+   TASK TEXT
+========================= */
+
+.task-text{
+
+  flex:1;
+
+  min-width:0;
+
+  font-size:15px;
+
+  color:#374151;
+
+  word-break:break-word;
+
+  transition:.2s ease;
+}
+
+
+/* Completed */
+
+.completed{
+
+  text-decoration:line-through;
+
+  color:#9ca3af;
+}
+
+
+/* =========================
+   BUTTON GROUP
+========================= */
+
+.btn-group{
+
+  display:flex;
+
+  gap:6px;
+
+  flex-shrink:0;
+}
+
+
+/* Edit */
+
+.edit-btn{
+
+  background:
+    rgba(255,149,0,.13);
+
+  color:#b76100;
+
+  padding:7px 10px;
+
+  border-radius:10px;
+
+  font-size:12px;
+}
+
+.edit-btn:hover{
+  background:
+    rgba(255,149,0,.22);
+}
+
+
+/* Save */
+
+.save-btn{
+
+  background:
+    rgba(52,199,89,.14);
+
+  color:#16883d;
+
+  padding:7px 10px;
+
+  border-radius:10px;
+
+  font-size:12px;
+}
+
+.save-btn:hover{
+  background:
+    rgba(52,199,89,.23);
+}
+
+
+/* Delete */
+
+.delete-btn{
+
+  background:
+    rgba(255,59,48,.12);
+
+  color:#d92d25;
+
+  padding:7px 10px;
+
+  border-radius:10px;
+
+  font-size:12px;
+}
+
+.delete-btn:hover{
+  background:
+    rgba(255,59,48,.22);
+}
+
+
+/* =========================
+   EMPTY STATE
+========================= */
+
+#todo-list:empty::after{
+
+  content:"No tasks yet. Add your first task!";
+
+  display:block;
+
+  text-align:center;
+
+  padding:25px 10px;
+
+  color:#8b929c;
+
+  font-size:14px;
+
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:600px){
+
+  body{
+    padding:20px 10px;
+  }
+
+  .todo-card{
+    padding:18px;
+    border-radius:22px;
+  }
+
+  h1{
+    font-size:26px;
+  }
+
+  #todo-form{
+    flex-direction:column;
+  }
+
+  #add-btn{
+    width:100%;
+  }
+
+  #todo-list li{
+    flex-wrap:wrap;
+  }
+
+  .task-text{
+    flex:1;
+  }
+
+  .btn-group{
+    width:100%;
+    justify-content:flex-end;
+    margin-left:31px;
+  }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div class="container">
+
+  <!-- HEADER -->
+
+  <div class="header">
+
+    <div class="app-icon">
+      ✓
+    </div>
+
+    <h1>My Tasks</h1>
+
+    <p class="subtitle">
+      Simple • Clean • Productive
+    </p>
+
+  </div>
+
+
+  <!-- TODO CARD -->
+
+  <div class="todo-card">
+
+    <h2>Today's Tasks</h2>
+
+
+    <!-- ADD TASK FORM -->
+
+    <form id="todo-form">
+
+      <input
+        type="text"
+        id="todo-input"
+        placeholder="Add a new task..."
+        required
+        autocomplete="off"
+      >
+
+      <button
+        type="submit"
+        id="add-btn">
+
+        + Add
+
+      </button>
+
+    </form>
+
+
+    <!-- TODO LIST -->
+
+    <ul id="todo-list">
+
+      <!-- Dynamic list items are inserted here -->
+
+    </ul>
+
+  </div>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   DOM ELEMENTS
+========================================================= */
+
+const todoForm =
+  document.getElementById("todo-form");
+
+const todoInput =
+  document.getElementById("todo-input");
+
+const todoList =
+  document.getElementById("todo-list");
+
+
+/* =========================================================
+   1. ADD FEATURE
+========================================================= */
+
+todoForm.addEventListener(
+  "submit",
+  function(event){
+
+    event.preventDefault();
+
+
+    const taskText =
+      todoInput.value.trim();
+
+
+    if(taskText === "")
+      return;
+
+
+    /*
+      CREATE NEW LI ELEMENT
+    */
+
+    const li =
+      document.createElement("li");
+
+
+    li.innerHTML = `
+
+      <input
+        type="checkbox"
+        class="todo-checkbox"
+      >
+
+      <span class="task-text">
+        ${taskText}
+      </span>
+
+      <div class="btn-group">
+
+        <button
+          type="button"
+          class="edit-btn">
+
+          Edit
+
+        </button>
+
+        <button
+          type="button"
+          class="delete-btn">
+
+          Delete
+
+        </button>
+
+      </div>
+
+    `;
+
+
+    /*
+      APPEND CHILD
+    */
+
+    todoList.appendChild(li);
+
+
+    /*
+      CLEAR INPUT
+    */
+
+    todoInput.value = "";
+
+    todoInput.focus();
+
+  }
+);
+
+
+/* =========================================================
+   EVENT DELEGATION
+   DOM TRAVERSAL & ACTIONS
+========================================================= */
+
+todoList.addEventListener(
+  "click",
+  function(event){
+
+    const target =
+      event.target;
+
+
+    /* =====================================================
+       2. DELETE FEATURE
+    ===================================================== */
+
+    if(
+      target.classList.contains(
+        "delete-btn"
+      )
+    ){
+
+      /*
+        closest() performs DOM traversal
+        and finds the parent LI
+      */
+
+      const li =
+        target.closest("li");
+
+
+      li.remove();
+
+    }
+
+
+    /* =====================================================
+       3. EDIT FEATURE
+    ===================================================== */
+
+    else if(
+      target.classList.contains(
+        "edit-btn"
+      )
+    ){
+
+      const li =
+        target.closest("li");
+
+
+      const taskTextSpan =
+        li.querySelector(
+          ".task-text"
+        );
+
+
+      const currentText =
+        taskTextSpan.textContent;
+
+
+      /*
+        Check completed state
+      */
+
+      const isCompleted =
+        taskTextSpan.classList
+        .contains("completed");
+
+
+      /*
+        Replace task content
+        with edit interface
+      */
+
+      li.innerHTML = `
+
+        <input
+          type="checkbox"
+          class="todo-checkbox"
+          ${isCompleted ? "checked" : ""}
+        >
+
+        <input
+          type="text"
+          class="edit-input"
+          value="${currentText}"
+        >
+
+        <div class="btn-group">
+
+          <button
+            type="button"
+            class="save-btn">
+
+            Save
+
+          </button>
+
+          <button
+            type="button"
+            class="delete-btn">
+
+            Delete
+
+          </button>
+
+        </div>
+
+      `;
+
+
+      /*
+        DOM traversal:
+        find edit input and focus it
+      */
+
+      li.querySelector(
+        ".edit-input"
+      ).focus();
+
+    }
+
+
+    /* =====================================================
+       4. SAVE FEATURE
+    ===================================================== */
+
+    else if(
+      target.classList.contains(
+        "save-btn"
+      )
+    ){
+
+      const li =
+        target.closest("li");
+
+
+      const editInput =
+        li.querySelector(
+          ".edit-input"
+        );
+
+
+      const updatedText =
+        editInput.value.trim();
+
+
+      const checkbox =
+        li.querySelector(
+          ".todo-checkbox"
+        );
+
+
+      if(updatedText === ""){
+
+        alert(
+          "Task item text cannot be empty!"
+        );
+
+        return;
+
+      }
+
+
+      /*
+        Re-render task
+        while preserving checkbox state
+      */
+
+      li.innerHTML = `
+
+        <input
+          type="checkbox"
+          class="todo-checkbox"
+          ${checkbox.checked ? "checked" : ""}
+        >
+
+        <span
+          class="task-text
+          ${checkbox.checked ? "completed" : ""}">
+
+          ${updatedText}
+
+        </span>
+
+        <div class="btn-group">
+
+          <button
+            type="button"
+            class="edit-btn">
+
+            Edit
+
+          </button>
+
+          <button
+            type="button"
+            class="delete-btn">
+
+            Delete
+
+          </button>
+
+        </div>
+
+      `;
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   5. CHECKBOX TOGGLE
+   DOM TRAVERSAL
+========================================================= */
+
+todoList.addEventListener(
+  "change",
+  function(event){
+
+    const target =
+      event.target;
+
+
+    if(
+      target.classList.contains(
+        "todo-checkbox"
+      )
+    ){
+
+      /*
+        Find parent LI
+      */
+
+      const li =
+        target.closest("li");
+
+
+      /*
+        Find sibling task text
+      */
+
+      const taskTextSpan =
+        li.querySelector(
+          ".task-text"
+        );
+
+
+      /*
+        Toggle completed class
+      */
+
+      if(target.checked){
+
+        taskTextSpan
+          .classList
+          .add("completed");
+
+      }
+
+      else{
+
+        taskTextSpan
+          .classList
+          .remove("completed");
+
+      }
+
+    }
+
+  }
+);
+
+</script>
+
+</body>
+</html>
+```
